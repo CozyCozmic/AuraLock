@@ -1,0 +1,11 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Editor and OS junk
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo

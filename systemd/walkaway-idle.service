@@ -1,0 +1,12 @@
+[Unit]
+Description=Hands-Free Walk-Away Idle Lock Service
+After=plasma-workspace.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/swayidle -w timeout 45 /home/alex/.local/bin/walkaway-handler.sh resume "/usr/bin/kscreen-doctor --dpms on"
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target
