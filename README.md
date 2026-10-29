@@ -1,8 +1,10 @@
-# AuraLock: Zero-Touch Biometric Lock & Wake for Linux
+# AuraLock - Windows Hello for Linux.
 
-A fully automated, zero-touch biometric locking and waking system designed for modern Linux laptops (tested on Arch/CachyOS with Intel Meteor Lake processors and KDE Plasma 6 Wayland).
+Howdy was too large for my taste and it was missing out on the features I wanted for my laptop, specifically the ability to walk away from my laptop, for it to auto turn off, then come back and it automatically recognizes me and it signs back in. It was one of the features I used on Windows that prevented me from originally switching to Linux in the first place, but now it is made and working! 
 
-It combines **Intel ISH / YuNet CNN face detection**, **DPMS display power management**, **`swayidle`**, and **`ydotool`** input injection to deliver a seamless, hands-free experience akin to Windows Hello or Apple Face ID.
+So far the System has only been tested on CachyOS with my Ideapad Pro5i which uses an Intel Meteor Lake processor as well as KDE Plasma 6 Wayland.
+
+The system combines **Intel ISH / YuNet CNN face detection**, **DPMS display power management**, **`swayidle`**, and **`ydotool`** input injection to recreate the seamless Windows Hello experience. 
 
 ---
 
@@ -18,6 +20,8 @@ It combines **Intel ISH / YuNet CNN face detection**, **DPMS display power manag
 - **Desktop Environment:** KDE Plasma 6 (Wayland)
 - **Dependencies:** Python 3, OpenCV (`python-opencv`), `swayidle`, `ydotool`, `qdbus6`, `kscreen-doctor`
 - **Hardware:** RGB/IR Camera (Intel ISH / VSC supported)
+
+*Note: I plan to add more device and hardware support over time*
 
 ---
 
@@ -50,7 +54,18 @@ It combines **Intel ISH / YuNet CNN face detection**, **DPMS display power manag
 - **Visual Sign-In Animation:** Implement a custom on-screen graphical overlay (resembling a Windows Hello or Face ID scanning ring) during biometric authentication.
 - **Universal Linux Packaging:** Bundle the system into a standalone app/package deployable across major Linux distros.
 
+
 ---
 
-## AI Collaboration Statement
-This project was conceptualized and architected in collaboration with **Gemini Argon** for process drafting, alongside **Gemini 3.5 Flash** and **Flash Light** for testing, debugging, and building the tool.
+## Security Statement
+- This program is suspectible to Frame Interception / Spoofing: The Camera Poller processes raw RGB/IR frames via the OpenCV, but as a result physical printouts or high-def photos held up to the camera could theoretically trigger false positives if proper liveness detection isn't enforced. By default when configured with LinuxCamPAM this system will not login a User unless both the IR and RGB camera sensors agree the person is the User, but nonetheless this is an issue.
+- Session State Hijacking: AuraLock relies on standard qdbus6 and loginctl signls to lock and unlock. A malicious script could gain access to your user bus and simulate user activity. However because the system does run inside your isolated user-space session context, standard Linux user permission boundaries protect AuraLock from cross-user attacks.
+
+TLDR: DO NOT use AuraLock as your only login system on your computer & please use it at your own risk. 
+
+---
+
+## AI Statement
+I want to be completely honest with how this project was conceived and the tools I used. Howdy and authFace did not have the specific Wake-on-approach & Hands-Free Walk-Away Locking which I enjoyed on my Windows Laptop before migrating to Linux. At the time of making this project, I did not have the understanding, nor the knowledge on how to build this myself based on the little amount of resources I found at the time. 
+
+I used Gemini 4.0 Argon to conceptualize and gather information on my system. It helped me find all the drivers, hubs, and sensors I couldn't find myself. Then I used Gemini 3.5 Flash and Gemini 3.5 Flash lite to build out the alpha version of this program. As I continue working on this project over time I will update this section with how every portion of this project was created and how much AI was used in the process.
